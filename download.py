@@ -121,7 +121,7 @@ def download(url, sec, artist, song, search, total, badquality, file_size):
 
 
 def doSearch(access_token, user_id, scount, searching, search, offset, artist):
-    if len(offset) == 0:
+    if len(str(offset)) == 0:
         offset=0
     url = "https://api.vk.com/method/audio.search?uids=" + str(user_id) + "&q=" + searching + "&offset=" + str(
         offset) + "&format=json&count=" + str(scount) + "&access_token=" + access_token
