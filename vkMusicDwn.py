@@ -14,12 +14,12 @@ dpath = '/music/'
 ### password from keyboard
 email = raw_input("Email: ")
 password = getpass.getpass()
-
 ### This block for static email and password
 ###
 #email = 'email'
 #password = 'password'
 
+bitrate = 230
 usersmusic = raw_input("Download users playlist? ( yes/no ): ")
 if usersmusic.lower() == "n" or usersmusic.lower() == "no":
     # different search can be splitted by '|'.
@@ -31,12 +31,12 @@ if usersmusic.lower() == "n" or usersmusic.lower() == "no":
         searching = urllib2.quote(s.encode('utf-8'))
         s = download.remSym(s)
         access_token, user_id = vk_auth.auth(email, password, "3164037", "10")
-        download.doSearch(access_token, user_id, scount, searching, dpath + s, offset, False)
+        download.doSearch(access_token, user_id, scount, searching, dpath + s, offset, False, bitrate)
         bq = open(dpath + s + "/Bad Quality Songs.txt" + searching, 'r')
         bqlist = bq.readlines()
         bq.close()
         for i in bqlist:
-            download.doSearch(access_token, user_id, 7, urllib2.quote(i.strip()), dpath + s, 0, i.split(" - ")[0])
+            download.doSearch(access_token, user_id, 7, urllib2.quote(i.strip()), dpath + s, 0, i.split(" - ")[0], bitrate)
         if os.path.exists(dpath + s):
             for i in os.listdir(dpath + s + '/'):
                 if i.startswith("Bad Quality Songs.txt"):

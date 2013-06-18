@@ -69,7 +69,7 @@ def remSym(data):
     return data
 
 
-def save(total, u, artist, song, fname, sec, file_size, file_name, badquality):
+def save(total, u, artist, song, fname, sec, file_size, file_name, bitrate, badquality):
 
     ### remove next "if" if not downloading some songs
     if file_size >25000000:
@@ -81,7 +81,7 @@ def save(total, u, artist, song, fname, sec, file_size, file_name, badquality):
         f = open(fname, 'wb')
         if sec == 0:
             sec = 150
-        if (file_size * 8 / 1024 / int(sec) > 230):
+        if (file_size * 8 / 1024 / int(sec) > bitrate):
             file_size_dl = 0
             block_sz = 8192
             print "Downloading: \"%s\" MBytes: %s" % (file_name, file_size / 1024 / 1024)
@@ -101,7 +101,7 @@ def save(total, u, artist, song, fname, sec, file_size, file_name, badquality):
                 badquality.writelines(str(artist) + " - " + str(song) + "\n")
 
 
-def download(url, sec, artist, song, search, total, badquality, file_size):
+def download(url, sec, artist, song, search, total, badquality, bitrate, file_size):
     tempname = ''
     if not os.path.exists(search):
         os.makedirs(search)
@@ -112,15 +112,15 @@ def download(url, sec, artist, song, search, total, badquality, file_size):
     fname = search + '/' + file_name
     u = urllib2.urlopen(url)
     if not os.access(fname, os.F_OK):
-        save(total, u, artist, song, fname.strip(' -'), sec, file_size, file_name, badquality)
+        save(total, u, artist, song, fname.strip(' -'), sec, file_size, file_name, bitrate, badquality)
     else:
         if os.stat(fname).st_size < file_size:
             os.remove(fname)
-            save(total, u, artist, song, fname.strip(' -'), sec, file_size, file_name, badquality)
+            save(total, u, artist, song, fname.strip(' -'), sec, file_size, file_name, bitrate, badquality)
     fname = ''
 
 
-def doSearch(access_token, user_id, scount, searching, search, offset, artist):
+def doSearch(access_token, user_id, scount, searching, search, offset, artist, bitrate):
     if len(str(offset)) == 0:
         offset=0
     url = "https://api.vk.com/method/audio.search?uids=" + str(user_id) + "&q=" + searching + "&offset=" + str(
@@ -150,7 +150,7 @@ def doSearch(access_token, user_id, scount, searching, search, offset, artist):
                 duration = data['response'][i]['duration']
                 url = data['response'][i]['url']
                 file_size = data['response'][i]['aid']
-                download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, file_size)
+                download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, bitrate, file_size)
             badquality.close()
             connection = False
         except urllib2.HTTPError, e:
