@@ -10,7 +10,7 @@ import getpass
 # Path to download folder
 dpath = '/music/'
 
-### Uncomment this if you want put email and
+### This block uncommented if you want put email and
 ### password from keyboard
 email = raw_input("Email: ")
 password = getpass.getpass()
