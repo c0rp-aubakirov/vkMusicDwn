@@ -26,7 +26,7 @@ def usersMusic(access_token, user_id, searching, search, artist, bitrate):
         duration = data['response'][i]['duration']
         url = data['response'][i]['url']
         file_size = data['response'][i]['aid']
-        download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, file_size, bitrate)
+        download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, bitrate, file_size)
 
 def firstLetter(data):
     """
@@ -70,7 +70,6 @@ def remSym(data):
 
 
 def save(total, u, artist, song, fname, sec, file_size, file_name, bitrate, badquality):
-
     ### remove next "if" if not downloading some songs
     if file_size >25000000:
         if os.access(fname, os.F_OK):
@@ -81,7 +80,7 @@ def save(total, u, artist, song, fname, sec, file_size, file_name, bitrate, badq
         f = open(fname, 'wb')
         if sec == 0:
             sec = 150
-        if (file_size * 8 / 1024 / int(sec) > bitrate):
+        if (file_size * 8 / 1024 / int(sec) > int(bitrate)):
             file_size_dl = 0
             block_sz = 8192
             print "Downloading: \"%s\" MBytes: %s" % (file_name, file_size / 1024 / 1024)
