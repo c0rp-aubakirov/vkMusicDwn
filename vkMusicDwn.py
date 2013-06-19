@@ -45,14 +45,14 @@ if usersmusic.lower() == "n" or usersmusic.lower() == "no":
 else:
     if usersmusic.lower() == "y" or usersmusic.lower() == "yes":
         access_token, user_id = vk_auth.auth(email, password, "3164037", "10")
-        download.usersMusic(access_token, user_id, 'myplaylist', dpath + 'myplaylist', False)
+        download.usersMusic(access_token, user_id, 'myplaylist', dpath + 'myplaylist', False, bitrate)
         search = 'myplaylist'
         searching = 'myplaylist'
         bq = open(dpath + search + "/Bad Quality Songs.txt" + searching, 'r')
         bqlist = bq.readlines()
         bq.close()
         for i in bqlist:
-            download.doSearch(access_token, user_id, 11, urllib2.quote(i.strip()), dpath + search, 0, i.split(" - ")[0])
+            download.doSearch(access_token, user_id, 11, urllib2.quote(i.strip()), dpath + search, 0, i.split(" - ")[0], bitrate)
         if os.path.exists(dpath + search):
             for i in os.listdir(dpath + search + '/'):
                 if i.startswith("Bad Quality Songs.txt"):

@@ -6,7 +6,7 @@ import json
 import time
 #import parallel
 
-def usersMusic(access_token, user_id, searching, search, artist):
+def usersMusic(access_token, user_id, searching, search, artist, bitrate):
     url = "https://api.vk.com/method/audio.get?uids=" + str(user_id) + "&format=json&access_token=" + access_token
     u = urllib2.urlopen(url)
     file = open("playlist.json", "w")
@@ -26,7 +26,7 @@ def usersMusic(access_token, user_id, searching, search, artist):
         duration = data['response'][i]['duration']
         url = data['response'][i]['url']
         file_size = data['response'][i]['aid']
-        download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, file_size)
+        download(url, duration, artist, title, search, str(i + 1) + "/" + str(total), badquality, file_size, bitrate)
 
 def firstLetter(data):
     """
@@ -203,6 +203,7 @@ def prepareData(reject):
     data['response'].pop(0)
     total = len(data['response'])
     print "List of music obtained\n"
+    print "Analysing..."
     for i in range(0, total):
         artist = data['response'][i]['artist'].split('(')[0].split('[')[0].strip(' |[]()-=<>')
         title = data['response'][i]['title'].split('(')[0].split('[')[0].strip(' |[]()-=<>')
@@ -279,7 +280,7 @@ def getSize(total, data, numbers):
         data['response'][i]['aid'] = fsize
         if fsize < 1500000 and i not in numbers:
             numbers.append(i)
-            print "Added " + str(i) + " on fsize"
+            #print "Added " + str(i) + " on fsize"
     for i in range(len(numbers)):
         data['response'].pop(numbers[i] - i)
     total = len(data['response'])
