@@ -3,7 +3,7 @@ vkMusicDwn
 
 Vkontakte music downloader
 
-Download music from vkotante.ru, vk.com
+Download music from vkontakte.ru, vk.com
 
 1. Download your vkontakte playlist
 2. Script not downloading what was already downloaded. If you update your playlist in vk.com, you can just choose "Download user playlist", and script will find new songs and download them.
